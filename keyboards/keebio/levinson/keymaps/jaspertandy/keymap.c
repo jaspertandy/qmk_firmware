@@ -24,6 +24,7 @@ enum custom_keycodes {
   TMUX_WIN_P,
   VIMUX_PROMPT,
   VIMUX_REPEAT,
+  VIM_NOHLSEARCH,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -96,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] =  LAYOUT_ortho_4x12( \
   _______, RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
   _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______,  _______, _______,  _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  VIM_NOHLSEARCH, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, VIMUX_PROMPT, VIMUX_REPEAT, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
 )
 
@@ -166,6 +167,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIMUX_REPEAT:
       if (record->event.pressed) {
         SEND_STRING(SS_TAP(X_ESCAPE)"\\r");
+      }
+      return false;
+      break;
+    case VIM_NOHLSEARCH:
+      if (record->event.pressed) {
+        SEND_STRING(SS_TAP(X_ESCAPE)":nohlsearch"SS_TAP(X_ENTER));
       }
       return false;
       break;
