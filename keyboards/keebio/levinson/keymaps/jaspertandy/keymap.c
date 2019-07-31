@@ -39,6 +39,7 @@ enum custom_keycodes {
   VIM_NOHLSEARCH,
   EMOJI_ROLLEYES,
   EMOJI_THUMBSUP,
+  EMOJI_SMIRK,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -99,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * | 🙄   | 👍   |      |      |      |      |      |      |      |      |      | Reset|
+ * | 🙄   | 👍   |  😏  |      |      |      |      |      |      |      |      | Reset|
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |Aud On|
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -109,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] =  LAYOUT_ortho_4x12( \
-  EMOJI_ROLLEYES, EMOJI_THUMBSUP, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET, \
+  EMOJI_ROLLEYES, EMOJI_THUMBSUP, EMOJI_SMIRK, _______, _______, _______, _______, _______, _______, _______, _______, RESET, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AU_ON, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AU_OFF, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AG_SWAP \
@@ -271,6 +272,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case EMOJI_THUMBSUP:
       if (record->event.pressed) {
           SEND_STRING(SS_LALT("D83D+DC4D"));
+      }
+      return false;
+      break;
+    case EMOJI_SMIRK:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LALT("D83D+DE0F"));
       }
       return false;
       break;
