@@ -22,6 +22,18 @@ enum custom_keycodes {
   TMUX_WIN_N,
   TMUX_PANE_P,
   TMUX_WIN_P,
+  TMUX_W0,
+  TMUX_W1,
+  TMUX_W2,
+  TMUX_W3,
+  TMUX_W4,
+  TMUX_W5,
+  TMUX_P0,
+  TMUX_P1,
+  TMUX_P2,
+  TMUX_P3,
+  TMUX_P4,
+  TMUX_P5,
   VIMUX_PROMPT,
   VIMUX_REPEAT,
   VIM_NOHLSEARCH,
@@ -62,8 +74,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_ortho_4x12( \
   KC_TILD, KC_EXLM,     KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
-  KC_DEL,  KC_F1,       KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  BL_STEP, KC_F7,       KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),_______, _______, _______, \
+  KC_DEL,  TMUX_W0, TMUX_W1, TMUX_W2, TMUX_W3, TMUX_W4, TMUX_W5, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
+  _______, TMUX_P0, TMUX_P1, TMUX_P2, TMUX_P3, TMUX_P4, TMUX_P5, S(KC_NUHS),S(KC_NUBS),_______, _______, _______, \
   _______, _______, _______ ,_______, _______, _______, _______, _______, TMUX_PANE_P, TMUX_PANE_N, TMUX_WIN_P, TMUX_WIN_N \
 ),
 
@@ -157,6 +169,78 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUX_WIN_P:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTRL("b")"m");
+      }
+      return false;
+      break;
+    case TMUX_W0:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"0");
+      }
+      return false;
+      break;
+    case TMUX_W1:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"1");
+      }
+      return false;
+      break;
+    case TMUX_W2:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"2");
+      }
+      return false;
+      break;
+    case TMUX_W3:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"3");
+      }
+      return false;
+      break;
+    case TMUX_W4:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"4");
+      }
+      return false;
+      break;
+    case TMUX_W5:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"5");
+      }
+      return false;
+      break;
+    case TMUX_P0:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q0");
+      }
+      return false;
+      break;
+    case TMUX_P1:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q1");
+      }
+      return false;
+      break;
+    case TMUX_P2:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q2");
+      }
+      return false;
+      break;
+    case TMUX_P3:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q3");
+      }
+      return false;
+      break;
+    case TMUX_P4:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q4");
+      }
+      return false;
+      break;
+    case TMUX_P5:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("b")"q5");
       }
       return false;
       break;
