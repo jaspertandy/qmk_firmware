@@ -7,12 +7,12 @@ extern keymap_config_t keymap_config;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _COLEMAK 1
-#define _DVORAK 2
 #define _LOWER 3
 #define _RAISE 4
 #define _ADJUST 16
 
+// Emoji layer on ADJUST requires OSX and Unicode Hex Input being selected as your input source
+// in System Preferences > Keyboard > Input Sources
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
@@ -25,6 +25,8 @@ enum custom_keycodes {
   VIMUX_PROMPT,
   VIMUX_REPEAT,
   VIM_NOHLSEARCH,
+  EMOJI_ROLLEYES,
+  EMOJI_THUMBSUP,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | |      |      |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |             |      | T>P  | T<P  | T>W  | T<W  |
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_ortho_4x12( \
@@ -73,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |  \r  | \vp  |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_ortho_4x12( \
@@ -85,20 +87,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
+ * | 🙄   | 👍   |      |      |      |      |      |      |      |      |      | Reset|
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |Aud on|Audoff|AGnorm|AGswap|      |      |      |      |      |
+ * |      |      |      |      |      |      |      |      |      |      |      |Aud On|
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |      |      |      |      |      |      |      |      |      |      |      |Audoff|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
+ * |      |      |      |      |      |             |      |      |      |      |AGswap|
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] =  LAYOUT_ortho_4x12( \
-  _______, RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
-  _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______,  _______, _______,  _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
+  EMOJI_ROLLEYES, EMOJI_THUMBSUP, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AU_ON, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AU_OFF, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, AG_SWAP \
 )
 
 
@@ -173,6 +175,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIM_NOHLSEARCH:
       if (record->event.pressed) {
         SEND_STRING(SS_TAP(X_ESCAPE)":nohlsearch"SS_TAP(X_ENTER));
+      }
+      return false;
+      break;
+    case EMOJI_ROLLEYES:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LALT("D83D+DE44"));
+      }
+      return false;
+      break;
+    case EMOJI_THUMBSUP:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LALT("D83D+DC4D"));
       }
       return false;
       break;
