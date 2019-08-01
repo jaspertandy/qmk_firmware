@@ -18,6 +18,7 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  FUCKING_POUND,
   TMUX_PANE_N,
   TMUX_WIN_N,
   TMUX_PANE_P,
@@ -77,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_ortho_4x12( \
   KC_TILD, KC_EXLM,     KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
   KC_DEL,  TMUX_W0, TMUX_W1, TMUX_W2, TMUX_W3, TMUX_W4, TMUX_W5, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  _______, TMUX_P0, TMUX_P1, TMUX_P2, TMUX_P3, TMUX_P4, TMUX_P5, S(KC_NUHS),S(KC_NUBS),_______, _______, _______, \
+  _______, TMUX_P0, TMUX_P1, TMUX_P2, TMUX_P3, TMUX_P4, TMUX_P5, S(KC_NUHS),S(KC_NUBS),_______, FUCKING_POUND, _______, \
   _______, _______, _______ ,_______, _______, _______, _______, _______, TMUX_PANE_P, TMUX_PANE_N, TMUX_WIN_P, TMUX_WIN_N \
 ),
 
@@ -147,6 +148,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(_ADJUST);
       } else {
         layer_off(_ADJUST);
+      }
+      return false;
+      break;
+    case FUCKING_POUND:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LALT("00A3"));
       }
       return false;
       break;
