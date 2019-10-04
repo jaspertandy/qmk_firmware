@@ -69,20 +69,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *        |+------+------+------+------+-----+------+------+------+------+------+------+------|--------------.
    *        |      |      |  Up  |      |      |      |      |   4  |   5  |   6  |      |      |    c-B D     |
    * ,------+------+------+------+------+------+------+------+------+------+------+------+------|--------------'
-   * | Home |      | Left | Down |Right |      |      |      |   1  |   2  |   3  |      |      |
+   * | Pgup |      | Left | Down |Right |      |      |      |   1  |   2  |   3  |      |      |
    * |------+------+------+------+------+------+-------------+------+------+------+------+------|
-   * |      |      |      |      |      |      |      |      |   0  |      |      |      |      |
+   * | Color|      |      |      |      |      |      |      |   0  |      |      |      |      |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------|
-   * | End  |      |      |      |      |      |      |      |      |      |      |      |PrScn |
+   * | Pgdn |      |      |      |      |      |      |      |      |      |      |      |PrScn |
    * `------------------------------------------------------------------------------------------'
    */
     [_LOWER] = LAYOUT(
-                   RGB_TOG , KC_TRNS , KC_TRNS , KC_TRNS , RGB_SAD , RGB_HUD , RGB_HUI , RGB_SAI , KC_TRNS , KC_TRNS , RGB_VAD , RGB_VAI         ,
-                   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_7    , KC_8    , KC_9    , KC_TRNS , KC_TRNS         ,
-    TMUX_D       , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_4    , KC_5    , KC_6    , KC_TRNS , KC_BSLS         ,
-    KC_PGDN      , KC_TRNS , KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS , KC_1    , KC_2    , KC_3    , KC_TRNS , KC_TRNS         ,
-    KC_TRNS      , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_0    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS         ,
-    KC_PGUP      , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SCREENSHOT_COPY
+                      RGB_TOG , KC_TRNS , KC_TRNS , KC_TRNS , RGB_SAD , RGB_HUD , RGB_HUI , RGB_SAI , KC_TRNS , KC_TRNS , RGB_VAD , RGB_VAI         ,
+                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_7    , KC_8    , KC_9    , KC_TRNS , KC_TRNS         ,
+    TMUX_D          , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_4    , KC_5    , KC_6    , KC_TRNS , KC_BSLS         ,
+    KC_PGDN         , KC_TRNS , KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS , KC_1    , KC_2    , KC_3    , KC_TRNS , KC_TRNS         ,
+    COLOR_PICKER    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_0    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS         ,
+    KC_PGUP         , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SCREENSHOT_COPY
   ),
 
   /* RAISE
