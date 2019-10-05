@@ -39,26 +39,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* BASE
    *        ,-----------------------------------------------------------------------------------.
-   *        |  `   |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |   [  |   ]  |   =  | Bksp |
+   *        |  `   |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |   [  |   ]  |   -  |  =   |
    *        |------+------+------+------+------+-------------+------+------+------+------+------|
-   *        | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |   -  |
+   *        | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
    *        |+------+------+------+------+-----+------+------+------+------+------+------+------|--------------.
    *        | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  |  \   |  Play/Pause  |
    * ,------+------+------+------+------+------+------+------+------+------+------+------+------|--------------'
-   * | \vr  | Ctrl |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+   * | \vr  | Raise|   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
    * |------+------+------+------+------+------+-------------+------+------+------+------+------|
    * | \vp  | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------|
-   * | :Ack | Del  | Ctrl | GUI  | ALT  |Lower |SPACE |SPACE | Raise| Left | Down |  Up  |Right |
+   * | :Ack | Crtl | Ctrl | GUI  | ALT  |Lower |SPACE |SPACE | Raise| Left | Down |  Up  |Right |
    * `------------------------------------------------------------------------------------------'
    */
     [_BASE] = LAYOUT(
-                    KC_GRAVE  , KC_F2    , KC_F3   , KC_F4   , KC_F5 , KC_F6  , KC_F7  , KC_F8 , KC_F9   , KC_LBRC , KC_RBRC , KC_EQUAL ,
-                    KC_ESC    , KC_1     , KC_2    , KC_3    , KC_4  , KC_5   , KC_6   , KC_7  , KC_8    , KC_9    , KC_0    , KC_MINUS ,
-    KC_MPLY       , KC_TAB    , KC_Q     , KC_W    , KC_E    , KC_R  , KC_T   , KC_Y   , KC_U  , KC_I    , KC_O    , KC_P    , KC_BSPC  ,
-    VIMUX_REPEAT  , KC_LCTRL  , KC_A     , KC_S    , KC_D    , KC_F  , KC_G   , KC_H   , KC_J  , KC_K    , KC_L    , KC_SCLN , KC_QUOT  ,
-    VIMUX_PROMPT  , KC_LSHIFT , KC_Z     , KC_X    , KC_C    , KC_V  , KC_B   , KC_N   , KC_M  , KC_COMM , KC_DOT  , KC_SLSH , KC_ENT   ,
-    VIM_ACK       , KC_DEL    , KC_RCTRL , KC_LGUI , KC_LALT , LOWER , KC_SPC , KC_SPC , RAISE , KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT
+                     KC_GRAVE  , KC_F2    , KC_F3   , KC_F4   , KC_F5 , KC_F6  , KC_F7  , KC_F8 , KC_LBRC , KC_RBRC , KC_MINUS , KC_EQUAL ,
+                     KC_ESC    , KC_1     , KC_2    , KC_3    , KC_4  , KC_5   , KC_6   , KC_7  , KC_8    , KC_9    , KC_0     , KC_BSPC  ,
+    KC_MPLY        , KC_TAB    , KC_Q     , KC_W    , KC_E    , KC_R  , KC_T   , KC_Y   , KC_U  , KC_I    , KC_O    , KC_P     , KC_BSLS  ,
+    VIMUX_REPEAT   , RAISE     , KC_A     , KC_S    , KC_D    , KC_F  , KC_G   , KC_H   , KC_J  , KC_K    , KC_L    , KC_SCLN  , KC_QUOT  ,
+    VIMUX_PROMPT   , KC_LSHIFT , KC_Z     , KC_X    , KC_C    , KC_V  , KC_B   , KC_N   , KC_M  , KC_COMM , KC_DOT  , KC_SLSH  , KC_ENT   ,
+    VIM_ACK        , KC_LCTRL  , KC_RCTRL , KC_LALT , KC_LGUI , LOWER , KC_SPC , KC_SPC , RAISE , KC_LEFT , KC_DOWN , KC_UP    , KC_RGHT
   ),
 
   /* LOWER
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOWER] = LAYOUT(
                       RGB_TOG , KC_TRNS , KC_TRNS , KC_TRNS , RGB_SAD , RGB_HUD , RGB_HUI , RGB_SAI , KC_TRNS , KC_TRNS , RGB_VAD , RGB_VAI         ,
                       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_7    , KC_8    , KC_9    , KC_TRNS , KC_TRNS         ,
-    TMUX_D          , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_4    , KC_5    , KC_6    , KC_TRNS , KC_BSLS         ,
+    TMUX_D          , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_4    , KC_5    , KC_6    , KC_TRNS , KC_TRNS         ,
     KC_PGDN         , KC_TRNS , KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS , KC_1    , KC_2    , KC_3    , KC_TRNS , KC_TRNS         ,
     COLOR_PICKER    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_0    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS         ,
     KC_PGUP         , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SCREENSHOT_COPY
@@ -120,8 +120,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
             // Previous tmux pane
             SEND_STRING(SS_LCTRL("b")"p");
         }
-    }
-    if (IS_LAYER_ON(_LOWER)) {
+    } else if (IS_LAYER_ON(_LOWER)) {
         if (clockwise) {
             // Next tmux window
             SEND_STRING(SS_LCTRL("b")"n");
