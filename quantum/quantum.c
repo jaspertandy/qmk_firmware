@@ -26,7 +26,7 @@
 
 #ifdef BACKLIGHT_ENABLE
 #    include "backlight.h"
-    extern backlight_config_t backlight_config;
+extern backlight_config_t backlight_config;
 #endif
 
 #ifdef FAUXCLICKY_ENABLE
@@ -89,7 +89,7 @@ static void do_code16(uint16_t code, void (*f)(uint8_t)) {
 
     uint8_t mods_to_send = 0;
 
-    if (code & QK_RMODS_MIN) { // Right mod flag is set
+    if (code & QK_RMODS_MIN) {  // Right mod flag is set
         if (code & QK_LCTL) mods_to_send |= MOD_BIT(KC_RCTL);
         if (code & QK_LSFT) mods_to_send |= MOD_BIT(KC_RSFT);
         if (code & QK_LALT) mods_to_send |= MOD_BIT(KC_RALT);
@@ -164,11 +164,6 @@ void reset_keyboard(void) {
     bootloader_jump();
 }
 
-/* true if the last press of GRAVE_ESC was shifted (i.e. GUI or SHIFT were pressed), false otherwise.
- * Used to ensure that the correct keycode is released if the key is released.
- */
-static bool grave_esc_was_shifted = false;
-
 /* Convert record into usable keycode via the contained event. */
 uint16_t get_record_keycode(keyrecord_t *record) { return get_event_keycode(record->event); }
 
@@ -222,6 +217,10 @@ bool process_record_quantum(keyrecord_t *record) {
             // Must run first to be able to mask key_up events.
             process_key_lock(&keycode, record) &&
 #endif
+#if defined(DYNAMIC_MACRO_ENABLE) && !defined(DYNAMIC_MACRO_USER_CALL)
+            // Must run asap to ensure all keypresses are recorded.
+            process_dynamic_macro(keycode, record) &&
+#endif
 #if defined(AUDIO_ENABLE) && defined(AUDIO_CLICKY)
             process_clicky(keycode, record) &&
 #endif  // AUDIO_CLICKY
@@ -272,259 +271,213 @@ bool process_record_quantum(keyrecord_t *record) {
         return false;
     }
 
-    // Shift / paren setup
-
-    switch (keycode) {
-        case RESET:
-            if (record->event.pressed) {
+    if (record->event.pressed) {
+        switch (keycode) {
+            case RESET:
                 reset_keyboard();
-            }
-            return false;
-        case DEBUG:
-            if (record->event.pressed) {
+                return false;
+#ifndef NO_DEBUG
+            case DEBUG:
                 debug_enable ^= 1;
                 if (debug_enable) {
                     print("DEBUG: enabled.\n");
                 } else {
                     print("DEBUG: disabled.\n");
                 }
-            }
-            return false;
-        case EEPROM_RESET:
-            if (record->event.pressed) {
-                eeconfig_init();
-            }
-            return false;
-#ifdef FAUXCLICKY_ENABLE
-        case FC_TOG:
-            if (record->event.pressed) {
-                FAUXCLICKY_TOGGLE;
-            }
-            return false;
-        case FC_ON:
-            if (record->event.pressed) {
-                FAUXCLICKY_ON;
-            }
-            return false;
-        case FC_OFF:
-            if (record->event.pressed) {
-                FAUXCLICKY_OFF;
-            }
-            return false;
 #endif
+                return false;
+            case EEPROM_RESET:
+                eeconfig_init();
+                return false;
+#ifdef FAUXCLICKY_ENABLE
+            case FC_TOG:
+                FAUXCLICKY_TOGGLE;
+                return false;
+            case FC_ON:
+                FAUXCLICKY_ON;
+                return false;
+            case FC_OFF:
+                FAUXCLICKY_OFF;
+                return false;
+#endif
+#ifdef VELOCIKEY_ENABLE
+            case VLK_TOG:
+                velocikey_toggle();
+                return false;
+#endif
+#ifdef BLUETOOTH_ENABLE
+        case OUT_AUTO:
+                set_output(OUTPUT_AUTO);
+                return false;
+        case OUT_USB:
+                set_output(OUTPUT_USB);
+                return false;
+        case OUT_BT:
+                set_output(OUTPUT_BLUETOOTH);
+                return false;
+#endif
+        }
+    }
+
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-        case RGB_TOG:
-// Split keyboards need to trigger on key-up for edge-case issue
 #    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
+    if (record->event.pressed) {
 #    else
-            if (!record->event.pressed) {
+    // Split keyboards need to trigger on key-up for edge-case issue
+    if (!record->event.pressed) {
 #    endif
+        uint8_t shifted = get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT));
+        switch (keycode) {
+            case RGB_TOG:
                 rgblight_toggle();
-            }
-            return false;
-        case RGB_MODE_FORWARD:
-            if (record->event.pressed) {
-                uint8_t shifted = get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT));
+                return false;
+            case RGB_MODE_FORWARD:
                 if (shifted) {
                     rgblight_step_reverse();
                 } else {
                     rgblight_step();
                 }
-            }
-            return false;
-        case RGB_MODE_REVERSE:
-            if (record->event.pressed) {
-                uint8_t shifted = get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT));
+                return false;
+            case RGB_MODE_REVERSE:
                 if (shifted) {
                     rgblight_step();
                 } else {
                     rgblight_step_reverse();
                 }
-            }
-            return false;
-        case RGB_HUI:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_increase_hue();
-            }
-            return false;
-        case RGB_HUD:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_decrease_hue();
-            }
-            return false;
-        case RGB_SAI:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_increase_sat();
-            }
-            return false;
-        case RGB_SAD:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_decrease_sat();
-            }
-            return false;
-        case RGB_VAI:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_increase_val();
-            }
-            return false;
-        case RGB_VAD:
-// Split keyboards need to trigger on key-up for edge-case issue
-#    ifndef SPLIT_KEYBOARD
-            if (record->event.pressed) {
-#    else
-            if (!record->event.pressed) {
-#    endif
-                rgblight_decrease_val();
-            }
-            return false;
-        case RGB_SPI:
-            if (record->event.pressed) {
-                rgblight_increase_speed();
-            }
-            return false;
-        case RGB_SPD:
-            if (record->event.pressed) {
-                rgblight_decrease_speed();
-            }
-            return false;
-        case RGB_MODE_PLAIN:
-            if (record->event.pressed) {
+                return false;
+            case RGB_HUI:
+                if (shifted) {
+                    rgblight_decrease_hue();
+                } else {
+                    rgblight_increase_hue();
+                }
+                return false;
+            case RGB_HUD:
+                if (shifted) {
+                    rgblight_increase_hue();
+                } else {
+                    rgblight_decrease_hue();
+                }
+                return false;
+            case RGB_SAI:
+                if (shifted) {
+                    rgblight_decrease_sat();
+                } else {
+                    rgblight_increase_sat();
+                }
+                return false;
+            case RGB_SAD:
+                if (shifted) {
+                    rgblight_increase_sat();
+                } else {
+                    rgblight_decrease_sat();
+                }
+                return false;
+            case RGB_VAI:
+                if (shifted) {
+                    rgblight_decrease_val();
+                } else {
+                    rgblight_increase_val();
+                }
+                return false;
+            case RGB_VAD:
+                if (shifted) {
+                    rgblight_increase_val();
+                } else {
+                    rgblight_decrease_val();
+                }
+                return false;
+            case RGB_SPI:
+                if (shifted) {
+                    rgblight_decrease_speed();
+                } else {
+                    rgblight_increase_speed();
+                }
+                return false;
+            case RGB_SPD:
+                if (shifted) {
+                    rgblight_increase_speed();
+                } else {
+                    rgblight_decrease_speed();
+                }
+                return false;
+            case RGB_MODE_PLAIN:
                 rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-            }
-            return false;
-        case RGB_MODE_BREATHE:
+                return false;
+            case RGB_MODE_BREATHE:
 #    ifdef RGBLIGHT_EFFECT_BREATHING
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_BREATHING <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_BREATHING_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_BREATHING);
                 }
-            }
 #    endif
-            return false;
+                return false;
         case RGB_MODE_RAINBOW:
 #    ifdef RGBLIGHT_EFFECT_RAINBOW_MOOD
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_RAINBOW_MOOD <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_RAINBOW_MOOD_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_RAINBOW_MOOD);
                 }
-            }
 #    endif
-            return false;
-        case RGB_MODE_SWIRL:
+            case RGB_MODE_SWIRL:
 #    ifdef RGBLIGHT_EFFECT_RAINBOW_SWIRL
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_RAINBOW_SWIRL <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_RAINBOW_SWIRL_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_RAINBOW_SWIRL);
                 }
-            }
 #    endif
-            return false;
-        case RGB_MODE_SNAKE:
+                return false;
+            case RGB_MODE_SNAKE:
 #    ifdef RGBLIGHT_EFFECT_SNAKE
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_SNAKE <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_SNAKE_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_SNAKE);
                 }
-            }
 #    endif
-            return false;
-        case RGB_MODE_KNIGHT:
+                return false;
+            case RGB_MODE_KNIGHT:
 #    ifdef RGBLIGHT_EFFECT_KNIGHT
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_KNIGHT <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_KNIGHT_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_KNIGHT);
                 }
-            }
 #    endif
-            return false;
-        case RGB_MODE_XMAS:
+                return false;
+            case RGB_MODE_XMAS:
 #    ifdef RGBLIGHT_EFFECT_CHRISTMAS
-            if (record->event.pressed) {
                 rgblight_mode(RGBLIGHT_MODE_CHRISTMAS);
-            }
 #    endif
-            return false;
-        case RGB_MODE_GRADIENT:
+                return false;
+            case RGB_MODE_GRADIENT:
 #    ifdef RGBLIGHT_EFFECT_STATIC_GRADIENT
-            if (record->event.pressed) {
                 if ((RGBLIGHT_MODE_STATIC_GRADIENT <= rgblight_get_mode()) && (rgblight_get_mode() < RGBLIGHT_MODE_STATIC_GRADIENT_end)) {
                     rgblight_step();
                 } else {
                     rgblight_mode(RGBLIGHT_MODE_STATIC_GRADIENT);
                 }
-            }
 #    endif
-            return false;
-        case RGB_MODE_RGBTEST:
+                return false;
+            case RGB_MODE_RGBTEST:
 #    ifdef RGBLIGHT_EFFECT_RGB_TEST
-            if (record->event.pressed) {
                 rgblight_mode(RGBLIGHT_MODE_RGB_TEST);
-            }
 #    endif
-            return false;
-#endif  // defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-#ifdef VELOCIKEY_ENABLE
-        case VLK_TOG:
-            if (record->event.pressed) {
-                velocikey_toggle();
-            }
-            return false;
+                return false;
+#if defined(BACKLIGHT_ENABLE) && defined(BACKLIGHT_BREATHING)
+            case BL_BRTG:
+                backlight_toggle_breathing();
+                return false;
 #endif
-#ifdef PROTOCOL_LUFA
-        case OUT_AUTO:
-            if (record->event.pressed) {
-                set_output(OUTPUT_AUTO);
-            }
-            return false;
-        case OUT_USB:
-            if (record->event.pressed) {
-                set_output(OUTPUT_USB);
-            }
-            return false;
-#    ifdef BLUETOOTH_ENABLE
-        case OUT_BT:
-            if (record->event.pressed) {
-                set_output(OUTPUT_BLUETOOTH);
-            }
-            return false;
-#    endif
+        }
+    }
 #endif
+
+    // keycodes that depend on both pressed and non-pressed state
+    switch (keycode) {
         case MAGIC_SWAP_CONTROL_CAPSLOCK ... MAGIC_TOGGLE_ALT_GUI:
         case MAGIC_SWAP_LCTL_LGUI ... MAGIC_EE_HANDS_RIGHT:
             if (record->event.pressed) {
@@ -563,7 +516,7 @@ bool process_record_quantum(keyrecord_t *record) {
                         keymap_config.swap_backslash_backspace = true;
                         break;
                     case MAGIC_HOST_NKRO:
-                        clear_keyboard(); // clear first buffer to prevent stuck keys
+                        clear_keyboard();  // clear first buffer to prevent stuck keys
                         keymap_config.nkro = true;
                         break;
                     case MAGIC_SWAP_ALT_GUI:
@@ -606,7 +559,7 @@ bool process_record_quantum(keyrecord_t *record) {
                         keymap_config.swap_backslash_backspace = false;
                         break;
                     case MAGIC_UNHOST_NKRO:
-                        clear_keyboard(); // clear first buffer to prevent stuck keys
+                        clear_keyboard();  // clear first buffer to prevent stuck keys
                         keymap_config.nkro = false;
                         break;
                     case MAGIC_UNSWAP_ALT_GUI:
@@ -644,7 +597,7 @@ bool process_record_quantum(keyrecord_t *record) {
 #endif
                         break;
                     case MAGIC_TOGGLE_NKRO:
-                        clear_keyboard(); // clear first buffer to prevent stuck keys
+                        clear_keyboard();  // clear first buffer to prevent stuck keys
                         keymap_config.nkro = !keymap_config.nkro;
                         break;
                     case MAGIC_EE_HANDS_LEFT:
@@ -664,6 +617,11 @@ bool process_record_quantum(keyrecord_t *record) {
             break;
 
         case GRAVE_ESC: {
+            /* true if the last press of GRAVE_ESC was shifted (i.e. GUI or SHIFT were pressed), false otherwise.
+            * Used to ensure that the correct keycode is released if the key is released.
+            */
+            static bool grave_esc_was_shifted = false;
+
             uint8_t shifted = get_mods() & ((MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT) | MOD_BIT(KC_LGUI) | MOD_BIT(KC_RGUI)));
 
 #ifdef GRAVE_ESC_ALT_OVERRIDE
@@ -707,14 +665,6 @@ bool process_record_quantum(keyrecord_t *record) {
             return false;
         }
 
-#if defined(BACKLIGHT_ENABLE) && defined(BACKLIGHT_BREATHING)
-        case BL_BRTG: {
-            if (record->event.pressed) {
-                backlight_toggle_breathing();
-            }
-            return false;
-        }
-#endif
     }
 
     return process_action_kb(record);
@@ -981,7 +931,7 @@ void matrix_scan_quantum() {
 #if defined(BACKLIGHT_ENABLE)
 #    if defined(LED_MATRIX_ENABLE)
     led_matrix_task();
-#    elif defined(BACKLIGHT_PIN)
+#    elif defined(BACKLIGHT_PIN) || defined(BACKLIGHT_PINS)
     backlight_task();
 #    endif
 #endif
@@ -1066,9 +1016,29 @@ void api_send_unicode(uint32_t unicode) {
 #endif
 }
 
+/** \brief Lock LED set callback - keymap/user level
+ *
+ * \deprecated Use led_update_user() instead.
+ */
 __attribute__((weak)) void led_set_user(uint8_t usb_led) {}
 
+/** \brief Lock LED set callback - keyboard level
+ *
+ * \deprecated Use led_update_kb() instead.
+ */
 __attribute__((weak)) void led_set_kb(uint8_t usb_led) { led_set_user(usb_led); }
+
+/** \brief Lock LED update callback - keymap/user level
+ *
+ * \return True if led_update_kb() should run its own code, false otherwise.
+ */
+__attribute__((weak)) bool led_update_user(led_t led_state) { return true; }
+
+/** \brief Lock LED update callback - keyboard level
+ *
+ * \return Ignored for now.
+ */
+__attribute__((weak)) bool led_update_kb(led_t led_state) { return led_update_user(led_state); }
 
 __attribute__((weak)) void led_init_ports(void) {}
 
@@ -1092,6 +1062,7 @@ __attribute__((weak)) void led_set(uint8_t usb_led) {
 #endif
 
     led_set_kb(usb_led);
+    led_update_kb((led_t)usb_led);
 }
 
 //------------------------------------------------------------------------------
