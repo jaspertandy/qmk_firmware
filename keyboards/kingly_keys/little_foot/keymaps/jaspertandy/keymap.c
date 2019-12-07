@@ -111,10 +111,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-bool RGB_INIT = true
+bool RGB_INIT = true;
+
 void matirx_scan_kb (void) {
     if (RGB_INIT) {
-        RGB_INIT = false
+        RGB_INIT = false;
         rgblight_setrgb (RGB_WHITE);
     }
 }
