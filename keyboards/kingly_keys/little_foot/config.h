@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.#pragma once 
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.#pragma once
  */
 
 #pragma once
@@ -54,7 +54,7 @@
 
 /* ws2812 RGB LED */
 #define RGB_DI_PIN F4
-#define RGBLED_NUM 17    // Number of LEDs
+#define RGBLED_NUM 9    // Number of LEDs
 #define RGBLIGHT_HUE_STEP 6
 #define RGBLIGHT_SAT_STEP 4
 #define RGBLIGHT_VAL_STEP 8
