@@ -55,7 +55,7 @@
 /* ws2812 RGB LED */
 #define RGBLIGHT_EFFECT_SNAKE
 #define RGB_DI_PIN F4
-#define RGBLED_NUM 9    // Number of LEDs
+#define RGBLED_NUM 10    // Number of LEDs
 #define RGBLIGHT_HUE_STEP 6
 #define RGBLIGHT_SAT_STEP 4
 #define RGBLIGHT_VAL_STEP 8
