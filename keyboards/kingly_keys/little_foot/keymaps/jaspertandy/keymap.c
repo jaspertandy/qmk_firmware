@@ -117,7 +117,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_setrgb (RGB_BLUE);
             break;
         case _LN:
-            rgblight_setrgb (RGB_BLUE);
+            rgblight_setrgb (RGB_RED);
             break;
         default: //  for any other layers, or the default layer
             rgblight_setrgb (RGB_WHITE);
