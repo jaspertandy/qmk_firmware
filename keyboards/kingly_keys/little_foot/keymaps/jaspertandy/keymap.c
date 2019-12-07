@@ -117,13 +117,15 @@ void keyboard_post_init_user(void) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _FN:
+            rgblight_mode(1);
             rgblight_setrgb (RGB_BLUE);
             break;
         case _LN:
-            rgblight_setrgb (RGB_RED);
             rgblight_mode(RGBLIGHT_MODE_SNAKE);
+            rgblight_setrgb (RGB_RED);
             break;
         default:
+            rgblight_mode(1);
             rgblight_setrgb (RGB_WHITE);
             break;
     }
