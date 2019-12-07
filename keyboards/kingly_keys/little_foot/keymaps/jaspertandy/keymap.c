@@ -50,6 +50,7 @@ enum custom_keycodes {
   TMUX_PANE_N,
   TMUX_WIN_P,
   TMUX_WIN_N,
+  EPRM,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -72,6 +73,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TMUX_WIN_N:
             if (record->event.pressed) {
                 SEND_STRING(SS_LCTRL("b")"m");
+            }
+            break;
+        case EPRM:
+            if (record->event.pressed) {
+                eeconfig_init();
             }
             break;
     }
@@ -102,10 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LN] = LAYOUT_split_space_base(
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , xxx , KC_PIPE ,
+        xxx , xxx , xxx , xxx , xxx , xxx , EPRM , xxx , xxx , xxx     ,
+        xxx , xxx , xxx , xxx , xxx , xxx , xxx  , xxx , xxx , xxx     ,
+        xxx , xxx , xxx , xxx , xxx , xxx , xxx  , xxx , xxx , xxx     ,
+        xxx , xxx , xxx , xxx , xxx , xxx , xxx  , xxx , xxx , KC_PIPE ,
         xxx , xxx , xxx , xxx
     )
 };
