@@ -6,8 +6,7 @@
 enum {
   _BASE,
   _FN,
-  _LN,
-  _HYPE
+  _LN
 };
 
 // Tap Dance Declarations
@@ -99,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TD(TD_SDCOL) , KC_UP   , xxx     , xxx , xxx , xxx , TMUX_PANE_P , TMUX_PANE_N , KC_EQL       , KC_UNDS ,
         KC_LEFT      , KC_DOWN , KC_RGHT , xxx , xxx , xxx , KC_LBRC     , KC_RBRC     , TD(TD_SDCOL) , xxx     ,
         KC_TILD      , KC_ENT  , xxx     , xxx , xxx , xxx , KC_LCBR     , KC_RCBR     , xxx          , KC_BSLS ,
-        xxx          , xxx     , xxx     , xxx
+        xxx          , xxx     , LN      , xxx
     ),
 
     [_LN] = LAYOUT_split_space_base(
@@ -119,12 +118,15 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _FN:
             rgblight_setrgb (RGB_BLUE);
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
             break;
         case _LN:
             rgblight_setrgb (RGB_RED);
+            rgblight_mode(RGBLIGHT_MODE_SNAKE);
             break;
-        default: //  for any other layers, or the default layer
+        default:
             rgblight_setrgb (RGB_WHITE);
+            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
             break;
     }
     return state;
