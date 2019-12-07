@@ -79,10 +79,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-void matrix_init_user() {
-    rgblight_setrgb(RGB_WHITE);
-}
-
 #define FN MO(_FN)
 #define LN MO(_LN)
 #define JT_SFT_SPC MT(MOD_LSFT , KC_SPC)
@@ -121,7 +117,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_setrgb (RGB_BLUE);
             break;
         case _LN:
-            rgblight_setrgb (RGB_RED);
+            rgblight_setrgb (RGB_BLUE);
             break;
         default: //  for any other layers, or the default layer
             rgblight_setrgb (RGB_WHITE);
