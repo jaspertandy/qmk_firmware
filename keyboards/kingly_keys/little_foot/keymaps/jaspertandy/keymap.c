@@ -79,6 +79,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+void matrix_init_user() {
+    rgblight_setrgb(RGB_WHITE);
+}
 
 #define FN MO(_FN)
 #define LN MO(_LN)
