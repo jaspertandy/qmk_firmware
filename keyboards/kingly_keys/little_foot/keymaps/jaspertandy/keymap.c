@@ -115,7 +115,8 @@ void keyboard_post_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
+    uint8_t layer = biton32(state);
+    switch (layer) {
         case _FN:
             rgblight_mode(1);
             rgblight_setrgb (RGB_BLUE);
