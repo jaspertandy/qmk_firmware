@@ -111,6 +111,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+bool RGB_INIT = true
+void matirx_scan_kb (void) {
+    if (RGB_INIT) {
+        rgblight_setrgb (RGB_WHITE);
+    }
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _FN:
