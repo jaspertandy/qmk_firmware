@@ -53,7 +53,6 @@
 #define LOCKING_RESYNC_ENABLE
 
 /* ws2812 RGB LED */
-#define RGBLIGHT_EFFECT_STATIC_LIGHT
 #define RGBLIGHT_EFFECT_SNAKE
 #define RGB_DI_PIN F4
 #define RGBLED_NUM 9    // Number of LEDs

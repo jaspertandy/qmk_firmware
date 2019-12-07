@@ -118,7 +118,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _FN:
             rgblight_setrgb (RGB_BLUE);
-            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
             break;
         case _LN:
             rgblight_setrgb (RGB_RED);
@@ -126,7 +125,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
         default:
             rgblight_setrgb (RGB_WHITE);
-            rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
             break;
     }
     return state;
