@@ -59,7 +59,7 @@
 #define RGBLIGHT_SAT_STEP 4
 #define RGBLIGHT_VAL_STEP 8
 
-#define COMBO_COUNT 6
+#define COMBO_COUNT 5
 
 #define PERMISSIVE_HOLD
 

@@ -1,8 +1,8 @@
+
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 #include "rgblight.h"
 
-// Layer names
 enum {
   _BASE,
   _FN,
@@ -10,30 +10,18 @@ enum {
   _HYPE
 };
 
-//Tap Dance Declarations
+// Tap Dance Declarations
 enum {
-  TD_SPC_SHFT = 1,
-  TD_CTRL_Z   = 2,
-  TD_CTRL_Y   = 3,
-  TD_CTRL_C   = 4,
-  TD_CTRL_V   = 5,
-  TD_CTRL_A   = 6,
-  TD_P_BSLS   = 7,
-  TD_QUOTE    = 8,
-  TD_SDCOL    = 9,
+  TD_P_BSLS = 0,
+  TD_QUOTE = 1,
+  TD_SDCOL = 2
 };
 
-//Tap Dance Definitions
+// Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_SPC_SHFT] = ACTION_TAP_DANCE_DOUBLE(KC_SPACE, KC_LSFT),
-  [TD_CTRL_Z]   = ACTION_TAP_DANCE_DOUBLE(KC_Z, LCTL(KC_Z)),
-  [TD_CTRL_Y]   = ACTION_TAP_DANCE_DOUBLE(KC_Y, LCTL(KC_Y)),
-  [TD_CTRL_C]   = ACTION_TAP_DANCE_DOUBLE(KC_C, LCTL(KC_C)),
-  [TD_CTRL_V]   = ACTION_TAP_DANCE_DOUBLE(KC_V, LCTL(KC_V)),
-  [TD_CTRL_A]   = ACTION_TAP_DANCE_DOUBLE(KC_A, LCTL(KC_A)),
-  [TD_P_BSLS]   = ACTION_TAP_DANCE_DOUBLE(KC_P, KC_BSLS),
-  [TD_QUOTE]    = ACTION_TAP_DANCE_DOUBLE(KC_QUOTE, KC_DQT),
-  [TD_SDCOL]    = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
+  [TD_P_BSLS]    = ACTION_TAP_DANCE_DOUBLE(KC_P, KC_BSLS),
+  [TD_QUOTE]     = ACTION_TAP_DANCE_DOUBLE(KC_QUOTE, KC_DQT),
+  [TD_SDCOL]       = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN)
 };
 
 enum combos {
@@ -41,21 +29,21 @@ enum combos {
   combo_BACK,
   combo_TAB,
   combo_DELETE,
-  combo_ENTER,
+  combo_ENTER
 };
 
-const uint16_t PROGMEM esc_combo[]   = {KC_1, KC_2, COMBO_END};
-const uint16_t PROGMEM bspc_combo[]  = {KC_9, KC_0, COMBO_END};
-const uint16_t PROGMEM tab_combo[]   = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM del_combo[]   = {KC_1, KC_0, COMBO_END};
+const uint16_t PROGMEM esc_combo[] = {KC_1, KC_2, COMBO_END};
+const uint16_t PROGMEM bspc_combo[] = {KC_9, KC_0, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM del_combo[] = {KC_1, KC_0, COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    [combo_ESC]    = COMBO(esc_combo, KC_ESC),
-    [combo_BACK]   = COMBO(bspc_combo, KC_BSPC),
-    [combo_TAB]    = COMBO(tab_combo, KC_TAB),
+    [combo_ESC] = COMBO(esc_combo, KC_ESC),
+    [combo_BACK] = COMBO(bspc_combo, KC_BSPC),
+    [combo_TAB] = COMBO(tab_combo, KC_TAB),
     [combo_DELETE] = COMBO(del_combo, KC_DEL),
-    [combo_ENTER]  = COMBO(enter_combo, KC_ENT),
+    [combo_ENTER] = COMBO(enter_combo, KC_ENTER)
 };
 
 enum custom_keycodes {
