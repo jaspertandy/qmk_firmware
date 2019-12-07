@@ -49,6 +49,8 @@ combo_t key_combos[COMBO_COUNT] = {
 enum custom_keycodes {
   TMUX_PANE_P = SAFE_RANGE,
   TMUX_PANE_N,
+  TMUX_WIN_P,
+  TMUX_WIN_N,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -61,6 +63,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TMUX_PANE_N:
             if (record->event.pressed) {
                 SEND_STRING(SS_LCTRL("b")"p");
+            }
+            break;
+        case TMUX_WIN_P:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTRL("b")"n");
+            }
+            break;
+        case TMUX_WIN_N:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTRL("b")"m");
             }
             break;
     }
@@ -84,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FN] = LAYOUT_split_space_base(
-        TD(TD_QUOTE) , xxx     , xxx     , xxx , xxx , xxx , xxx         , xxx         , KC_MINS      , KC_PLUS ,
+        TD(TD_QUOTE) , xxx     , xxx     , xxx , xxx , xxx , TMUX_WIN_P  , TMUX_WIN_N  , KC_MINS      , KC_PLUS ,
         TD(TD_SDCOL) , KC_UP   , xxx     , xxx , xxx , xxx , TMUX_PANE_P , TMUX_PANE_N , KC_EQL       , KC_UNDS ,
         KC_LEFT      , KC_DOWN , KC_RGHT , xxx , xxx , xxx , KC_LBRC     , KC_RBRC     , TD(TD_SDCOL) , xxx     ,
         KC_TILD      , KC_ENT  , xxx     , xxx , xxx , xxx , KC_LCBR     , KC_RCBR     , xxx          , KC_BSLS ,
