@@ -49,7 +49,8 @@ enum custom_keycodes {
   TMUX_PANE_P = SAFE_RANGE,
   TMUX_PANE_N,
   TMUX_WIN_P,
-  TMUX_WIN_N
+  TMUX_WIN_N,
+  VIM_WQ
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -74,6 +75,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LCTRL("b")"m");
             }
             break;
+        case VIM_WQ:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_ESCAPE)":wq"SS_TAP(X_ENTER));
+            }
+            break;
     }
     return true;
 };
@@ -94,10 +100,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FN] = LAYOUT_split_space_base(
-        TD(TD_QUOTE) , xxx     , xxx     , xxx , xxx , xxx , TMUX_WIN_P  , TMUX_WIN_N  , KC_MINS      , KC_PLUS ,
-        TD(TD_SDCOL) , KC_UP   , xxx     , xxx , xxx , xxx , TMUX_PANE_P , TMUX_PANE_N , KC_EQL       , KC_UNDS ,
-        KC_LEFT      , KC_DOWN , KC_RGHT , xxx , xxx , xxx , KC_LBRC     , KC_RBRC     , TD(TD_SDCOL) , xxx     ,
-        KC_TILD      , KC_ENT  , xxx     , xxx , xxx , xxx , KC_LCBR     , KC_RCBR     , xxx          , KC_BSLS ,
+        TD(TD_QUOTE) , xxx     , xxx     , xxx , xxx , xxx , TMUX_WIN_P  , TMUX_WIN_N  , KC_MINS , KC_PLUS ,
+        TD(TD_SDCOL) , KC_UP   , xxx     , xxx , xxx , xxx , TMUX_PANE_P , TMUX_PANE_N , KC_EQL  , KC_UNDS ,
+        KC_LEFT      , KC_DOWN , KC_RGHT , xxx , xxx , xxx , KC_LBRC     , KC_RBRC     , VIM_WQ  , xxx     ,
+        KC_TILD      , KC_PIPE , xxx     , xxx , xxx , xxx , KC_LCBR     , KC_RCBR     , xxx     , KC_BSLS ,
         xxx          , xxx     , LN      , xxx
     ),
 
@@ -105,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         xxx , xxx , xxx , xxx , xxx , xxx , RESET , xxx , xxx , xxx     ,
         xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
         xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , KC_PIPE ,
+        xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
         xxx , xxx , xxx , xxx
     )
 };
@@ -123,7 +129,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_setrgb (RGB_BLUE);
             break;
         case _LN:
-            rgblight_mode(RGBLIGHT_MODE_SNAKE);
+            rgblight_mode(RGBLIGHT_MODE_RAINBOW);
             rgblight_setrgb (RGB_RED);
             break;
         default:
