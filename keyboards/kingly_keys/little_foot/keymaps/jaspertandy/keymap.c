@@ -6,7 +6,7 @@
 #define FN MO(_FN)
 #define LN MO(_LN)
 #define SFT_SPC MT(MOD_LSFT , KC_SPC)
-#define ALT_DOT MT(MOD_LALT , KC_C)
+#define ALT_DOT MT(MOD_LALT , KC_DOT)
 #define xxx KC_TRNS
 
 enum {
