@@ -41,7 +41,7 @@ const uint16_t PROGMEM esc_combo[] = {KC_1, KC_2, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {KC_9, KC_0, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_1, KC_0, COMBO_END};
-const uint16_t PROGMEM enter_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM enter_combo[] = {ALT_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     [combo_ESC] = COMBO(esc_combo, KC_ESC),
