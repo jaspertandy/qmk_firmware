@@ -76,7 +76,7 @@ LAYOUT( /* RIGHT */
   KC_TILDE,  KC_EXCLAIM,  KC_AT,  KC_HASH,  KC_DOLLAR, KC_PERCENT, KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_DELETE,
   _______, RGB_TOG, RGB_MOD, RGB_VAI, RGB_VAD, _______, _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
   _______, _______,   _______,   _______,   _______,   _______,   _______,   _______,   KC_LT,   KC_GT,   _______,  _______,
-  _______, _______, _______, _______, _______,     _______,      _______, KC_MUTE, KC_VOLU, KC_VOLD, KC_MPLY
+  _______, _______, _______, _______, _______,     _______,      _______, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
   /* FN Layer 3
