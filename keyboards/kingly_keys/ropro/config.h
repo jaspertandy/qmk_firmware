@@ -30,8 +30,8 @@
 #define MATRIX_ROWS 7
 #define MATRIX_COLS 14
 
-#define ENCODERS_PAD_A { B7 }
-#define ENCODERS_PAD_B { D5 }
+#define ENCODERS_PAD_A { D5 }
+#define ENCODERS_PAD_B { B7 }
 
  /* key matrix pins */
 #define MATRIX_ROW_PINS { F4, F5, F6, F7, B1, F1, NO_PIN }
