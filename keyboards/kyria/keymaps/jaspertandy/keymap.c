@@ -26,6 +26,18 @@ enum custom_keycodes {
   FORCE_HASH = SAFE_RANGE,
 };
 
+//Tap Dance Declarations
+enum {
+  TD_LPARENS = 0,
+  TD_RPARENS
+};
+
+// Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_LPARENS]  = ACTION_TAP_DANCE_DOUBLE(KC_LEFT_PAREN, KC_LBRC),
+  [TD_RPARENS]  = ACTION_TAP_DANCE_DOUBLE(KC_RIGHT_PAREN, KC_RBRC)
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * Base Layer: QWERTY
@@ -35,17 +47,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |  Tab   |   A  |   S  |  D   |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |LowSpc|Space |  |LowSpc|Rai/Up|   N  |   M  | ,  < | . >  | /  ? |  | \   |
+ * |   ([   |   Z  |   X  |   C  |   V  |   B  |Adjust|Space |  |Space |Rai/Up|   N  |   M  | ,  < | . >  | /  ? |   )]   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | Play | Ctrl | Alt  | GUI  |Space |  | Enter| Left | Down |Right | Play |
- *                        |      |      |      |      |Raise |  | Lower| GUI  | Alt  | Ctrl |      |
+ *                        |      |      |      |      |LShift|  |Rshift| GUI  | Alt  | Ctrl |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
-      KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                                                                                  KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-      KC_TAB,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                                                                                                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LSFT,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,                  LT(_LOWER, KC_SPC),   KC_SPC,            LT(_LOWER, KC_SPC), LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MT(MOD_LSFT, KC_BSLS),
-                                            KC_MPLY, KC_LCTRL, KC_LALT, KC_LGUI, LT(_RAISE, KC_SPC),            LT(_LOWER, KC_ENT), MT(MOD_LGUI, KC_LEFT), MT(MOD_LALT, KC_DOWN), MT(MOD_LCTL, KC_RGHT), KC_MPLY
+      KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+      KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   KC_G,                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+      TD(TD_LPARENS),  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, MO(_ADJUST),   KC_SPC,            KC_SPC, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(TD_RPARENS),
+                            KC_MPLY, KC_LCTRL, KC_LALT, KC_LGUI, MT(MOD_LSFT, KC_SPC),         MT(MOD_RSFT, KC_ENT), MT(MOD_RGUI, KC_LEFT), MT(MOD_RALT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
  * Lower Layer: Numbers left hand
@@ -55,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |      |  /   |  4   |  5   |  6   |                              |      |      |      |      |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |  =   |  7   |  8   |  9   |      |      |  |      |      |      |      |      |      |      |        |
+ * |        |      |  =   |  7   |  8   |  9   |      |      |  |      |      |  \   |      |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |  -   |  +   |  0   |   _  |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -64,18 +76,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOWER] = LAYOUT(
       _______,  _______, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, _______, _______, _______, _______,    KC_DELETE,
       _______, _______, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, _______, _______, _______, _______, _______,
-      _______, _______, KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, KC_BSLS, _______, _______, _______, _______, _______,
                                  _______, KC_MINS, KC_PLUS, KC_0, KC_UNDERSCORE, _______, _______, _______, _______, _______
     ),
 /*
  * Raise Layer: Symbols right hand
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |   !   |  @   |  £   |  $   |  %  |   ~    |
+ * |        |      |      |      |      |      |                              |   !   |  @   |  £   |  $   |  %  |   ?    |
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |        |      |      |      |      |      |                              |   ^  |   &  |  *   |  (   |  )   |   `    |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |  #   |   -  |  =   |  <   |  >   |  ?   |        |
+ * |        |      |      |      |      |      |      |      |  |      |  #   |   \  |  |   |  <   |  >   |  ?   |   ~    |
  * |--------+------+------+------+------+------+------+------|  |------+------+------+------+------+------+------+--------|
  *                        |      |      |      |      |      |  |  {   |   }  |   [  |  ]   |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -84,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_RAISE] = LAYOUT(
       _______, _______, _______, _______, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_HASH,  KC_DOLLAR, KC_PERCENT, KC_QUES,
       _______, _______, _______, _______, _______, _______,                           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_GRV,
-      _______, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_MINS, KC_EQL,  KC_LT,   KC_GT, _______, KC_TILDE,
+      _______, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, _______, KC_TILDE,
                _______, _______, _______, _______, _______,                                     KC_LEFT_CURLY_BRACE, KC_RIGHT_CURLY_BRACE, KC_LBRC, KC_RBRC, KC_MPLY
     ),
 /*
@@ -128,10 +140,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //     ),
 };
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
 
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
