@@ -45,7 +45,9 @@ enum custom_keycodes {
   VIM_WQ,
   CLIPBOARD,
   ONEPASS,
-  SSHOT
+  SSHOT,
+  CMDSHIFTRIGHT,
+  CMDSHIFTLEFT
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -93,6 +95,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case CMDSHIFTLEFT:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_LEFT))));
+            }
+            return false;
+            break;
+        case CMDSHIFTRIGHT:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_RIGHT))));
+            }
+            return false;
+            break;
     }
     return true;
 };
@@ -115,11 +129,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LN] = LAYOUT_split_space_base(
-        xxx , xxx , xxx , xxx , xxx , xxx , RESET , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx , xxx , xxx , xxx   , xxx , xxx , xxx     ,
-        xxx , xxx , xxx , xxx
+        xxx          , xxx , xxx           , xxx , xxx , xxx , RESET , xxx , xxx , xxx ,
+        xxx          , xxx , xxx           , xxx , xxx , xxx , xxx   , xxx , xxx , xxx ,
+        CMDSHIFTLEFT , xxx , CMDSHIFTRIGHT , xxx , xxx , xxx , xxx   , xxx , xxx , xxx ,
+        xxx          , xxx , xxx           , xxx , xxx , xxx , xxx   , xxx , xxx , xxx ,
+        xxx          , xxx , xxx           , xxx
     )
 };
 
