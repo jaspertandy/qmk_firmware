@@ -28,7 +28,6 @@ enum custom_keycodes {
     VIMUX_PROMPT,
     VIMUX_REPEAT,
     VIM_ACK,
-    SCREENSHOT_COPY,
     COLOR_PICKER,
     SQB_SINGLE,
     SQB_DOUBLE,
@@ -38,6 +37,7 @@ enum custom_keycodes {
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define _______ KC_TRNS
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                      KC_GRAVE  , KC_F2    , KC_F3   , KC_F4   , KC_F5 , KC_F6  , KC_F7  , KC_F8 , KC_MINUS , KC_EQL  , KC_LBRC  , KC_RBRC  ,
                      KC_ESC    , KC_1     , KC_2    , KC_3    , KC_4  , KC_5   , KC_6   , KC_7  , KC_8     , KC_9    , KC_0     , KC_BSPC  ,
     KC_MPLY        , KC_TAB    , KC_Q     , KC_W    , KC_E    , KC_R  , KC_T   , KC_Y   , KC_U  , KC_I     , KC_O    , KC_P     , KC_BSLS  ,
-    VIMUX_REPEAT   , RAISE     , KC_A     , KC_S    , KC_D    , KC_F  , KC_G   , KC_H   , KC_J  , KC_K     , KC_L    , KC_SCLN  , KC_QUOT  ,
+    VIMUX_REPEAT   , KC_RSHIFT , KC_A     , KC_S    , KC_D    , KC_F  , KC_G   , KC_H   , KC_J  , KC_K     , KC_L    , KC_SCLN  , KC_QUOT  ,
     VIMUX_PROMPT   , KC_LSHIFT , KC_Z     , KC_X    , KC_C    , KC_V  , KC_B   , KC_N   , KC_M  , KC_COMM  , KC_DOT  , KC_SLSH  , KC_ENT   ,
     VIM_ACK        , KC_LCTRL  , KC_RCTRL , KC_LALT , KC_LGUI , LOWER , KC_SPC , KC_SPC , RAISE , KC_LEFT  , KC_DOWN , KC_UP    , KC_RGHT
   ),
@@ -69,24 +69,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *        ,-----------------------------------------------------------------------------------.
    *        |TOGRGB|      |      |      |Sat(-)|Hue(-)|Hue(+)|Sat(+)|      |      |Brght-|Brght+|
    *        |------+------+------+------+------+-------------+------+------+------+------+------|
-   *        |      |      |      |      |      |      |      |   7  |   8  |   9  |  -   |  =   |
+   *        |      |      |      |      |      |      |      |   7  |   8  |   9  |      |      |
    *        |+------+------+------+------+-----+------+------+------+------+------+------+------|--------------.
-   *        |      |      |  Up  |      |      |      |      |   4  |   5  |   6  |  [   |  ]   |    c-B D     |
+   *        |      |      |  Up  |      |      |      |      |   4  |   5  |   6  |      |      |    c-B D     |
    * ,------+------+------+------+------+------+------+------+------+------+------+------+------|--------------'
    * | Pgup |      | Left | Down |Right |      |      |      |   1  |   2  |   3  |      |  ~   |
    * |------+------+------+------+------+------+-------------+------+------+------+------+------|
    * | Color|      |      |      |      |      |      |      |   0  |      |      |      |      |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------|
-   * | Pgdn |      |      |      |      |      |      |      |      |      |      |      |PrScn |
+   * | Pgdn |      |      |      |      |      |      |      |      |      |      |      |      |
    * `------------------------------------------------------------------------------------------'
    */
     [_LOWER] = LAYOUT(
-                      RGB_TOG , KC_TRNS , KC_TRNS , KC_TRNS , RGB_SAD , RGB_HUD , RGB_HUI , RGB_SAI , KC_TRNS , KC_TRNS , RGB_VAD , RGB_VAI         ,
-                      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_7    , KC_8    , KC_9    , KC_MINUS , KC_EQL         ,
-    TMUX_D          , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_4    , KC_5    , KC_6    , KC_LBRC , KC_RBRC         ,
-    KC_PGDN         , KC_TRNS , KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS , KC_1    , KC_2    , KC_3    , KC_TRNS , KC_TILD         ,
-    COLOR_PICKER    , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_0    , KC_LABK , KC_RABK , KC_TRNS , KC_TRNS         ,
-    KC_PGUP         , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SCREENSHOT_COPY
+                      RGB_TOG , _______ , _______ , _______ , RGB_SAD , RGB_HUD , RGB_HUI , RGB_SAI , _______ , _______ , RGB_VAD , RGB_VAI         ,
+                      _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_7    , KC_8    , KC_9    , _______ , _______         ,
+    TMUX_D          , _______ , _______ , KC_UP   , _______ , _______ , _______ , _______ , KC_4    , KC_5    , KC_6    , _______ , _______         ,
+    KC_PGDN         , _______ , KC_LEFT , KC_DOWN , KC_RGHT , _______ , _______ , _______ , KC_1    , KC_2    , KC_3    , _______ , KC_TILD         ,
+    COLOR_PICKER    , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_0    , _______ , _______ , _______ , _______         ,
+    KC_PGUP         , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   ),
 
   /* RAISE
@@ -106,12 +106,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
 
     [_RAISE] = LAYOUT(
-                    KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS    , KC_TRNS    ,
-                    KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_UNDS    , KC_PLUS    ,
-    TMUX_D        , KC_TRNS , KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR    , KC_RCBR    ,
-    KC_CAPS       , KC_TRNS , KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SQB_SINGLE , SQB_DOUBLE ,
-    KC_TRNS       , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , SQB_PAIR   , CBR_PAIR   ,
-    KC_TRNS       , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS    , KC_TRNS
+                    _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______    , _______    ,
+                    _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_UNDS    , KC_PLUS    ,
+    TMUX_D        , _______ , _______ , KC_UP   , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LCBR    , KC_RCBR    ,
+    KC_CAPS       , _______ , KC_LEFT , KC_DOWN , KC_RGHT , _______ , _______ , _______ , _______ , _______ , _______ , SQB_SINGLE , SQB_DOUBLE ,
+    _______       , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , SQB_PAIR   , CBR_PAIR   ,
+    _______       , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______    , _______
   )
 };
 
@@ -166,12 +166,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIM_ACK:
       if (record->event.pressed) {
         SEND_STRING(SS_TAP(X_ESCAPE)":Ack ");
-      }
-      return false;
-      break;
-    case SCREENSHOT_COPY:
-      if (record->event.pressed) {
-          SEND_STRING(SS_LCTRL(SS_LSFT(SS_LGUI("4"))));
       }
       return false;
       break;
