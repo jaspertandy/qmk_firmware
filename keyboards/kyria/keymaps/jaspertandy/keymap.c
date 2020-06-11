@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
       KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
       KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   KC_G,                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      TD(TD_LPARENS),  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, MO(_ADJUST),   KC_SPC,            KC_SPC, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(TD_RPARENS),
+      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, MO(_ADJUST),   KC_SPC,            KC_SPC, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
                             KC_MPLY, KC_LCTRL, KC_LALT, KC_LGUI, MT(MOD_LSFT, KC_SPC),         MT(MOD_RSFT, KC_ENT), MT(MOD_RGUI, KC_LEFT), MT(MOD_RALT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOWER] = LAYOUT(
       SCREENSHOT_COPY,  _______, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, _______, _______, _______, _______,    KC_DELETE,
       _______, _______, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, _______, _______, _______, _______, _______,
-      _______, _______, KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, KC_BSLS, _______, _______, _______, _______, _______,
+      KC_LCBR, _______, KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, KC_BSLS, _______, _______, _______, _______, KC_RCBR,
                                  _______, KC_MINS, KC_PLUS, KC_0, KC_UNDERSCORE, _______, _______, _______, _______, _______
     ),
 /*
@@ -95,9 +95,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_RAISE] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, _______,
+      _______, _______, _______, _______, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
       _______, _______, _______, _______, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
-      _______, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, KC_TILDE,
+      KC_LBRC, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, KC_RBRC,
                _______, _______, _______, _______, _______,                                     KC_MINS, _______, _______, _______, KC_MPLY
     ),
 /*
@@ -256,24 +256,23 @@ static void render_status(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
-            oled_write_P(PSTR("QWERT\n"), false);
-            oled_write_P(PSTR("Rotary L: Vol\n"), false);
-            oled_write_P(PSTR("Rotary R: tmux pane\n"), false);
+            oled_write_P(PSTR("QWERTY\n"), false);
+            oled_write_P(PSTR("Parens\n"), false);
+            oled_write_P(PSTR("Rotary: volume\n"), false);
             break;
         case _LOWER:
             oled_write_P(PSTR("Numbers LH\n"), false);
-            oled_write_P(PSTR("Rotary L: Vol\n"), false);
-            oled_write_P(PSTR("Rotary R: tmux pane\n"), false);
+            oled_write_P(PSTR("Curly\n"), false);
+            oled_write_P(PSTR("Rotary: volume\n"), false);
             break;
         case _RAISE:
             oled_write_P(PSTR("Symbols RH\n"), false);
-            oled_write_P(PSTR("Rotary L: Vol\n"), false);
-            oled_write_P(PSTR("Rotary R: tmux window\n"), false);
+            oled_write_P(PSTR("Square\n"), false);
+            oled_write_P(PSTR("Rotary: tmux pane\n"), false);
             break;
         case _ADJUST:
             oled_write_P(PSTR("F1\n"), false);
-            oled_write_P(PSTR("Rotary L: Vol\n"), false);
-            oled_write_P(PSTR("Rotary R: tmux window\n"), false);
+            oled_write_P(PSTR("Rotary: tmux window\n"), false);
             break;
         default:
             oled_write_P(PSTR("Undefined\n"), false);
@@ -291,31 +290,28 @@ void oled_task_user(void) {
 
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) {
+    if (IS_LAYER_ON(_ADJUST)) {
+        if (clockwise) {
+            // Next tmux window
+            SEND_STRING(SS_LCTRL("b")"n");
+        } else {
+            // Previous tmux window
+            SEND_STRING(SS_LCTRL("b")"m");
+        }
+    } else if (IS_LAYER_ON(_RAISE)) {
+        if (clockwise) {
+            // Next tmux pane
+            SEND_STRING(SS_LCTRL("b")"o");
+        } else {
+            // Previous tmux pane
+            SEND_STRING(SS_LCTRL("b")"p");
+        }
+    } else {
         // Volume control
         if (clockwise) {
             tap_code(KC_VOLU);
         } else {
             tap_code(KC_VOLD);
-        }
-    }
-    else if (index == 1) {
-        if (IS_LAYER_ON(_RAISE)) {
-            if (clockwise) {
-                // Next tmux window
-                SEND_STRING(SS_LCTRL("b")"n");
-            } else {
-                // Previous tmux window
-                SEND_STRING(SS_LCTRL("b")"m");
-            }
-        } else {
-            if (clockwise) {
-                // Next tmux pane
-                SEND_STRING(SS_LCTRL("b")"o");
-            } else {
-                // Previous tmux pane
-                SEND_STRING(SS_LCTRL("b")"p");
-            }
         }
     }
 }
