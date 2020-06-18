@@ -48,47 +48,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |  Tab   |   A  |   S  |  D   |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |   ([   |   Z  |   X  |   C  |   V  |   B  |Adjust|Space |  |Space |Rai/Up|   N  |   M  | ,  < | . >  | /  ? |   )]   |
+ * |   ([   |   Z  |   X  |   C  |   V  |   B  | Caps | LSft |  | LSft |Rai/Up|   N  |   M  | ,  < | . >  | /  ? |   )]   |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | Play | Ctrl | Alt  | GUI  |Space |  | Enter| Left | Down |Right | Play |
- *                        |      |      |      |      |LShift|  |Rshift| GUI  | Alt  | Ctrl |      |
+ *                        |      |      |      |      |      |  |      | GUI  | Alt  | Ctrl |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
       KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-      KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   KC_G,                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, MO(_ADJUST),   KC_SPC,            KC_SPC, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
-                            KC_MPLY, KC_LCTRL, KC_LALT, KC_LGUI, MT(MOD_LSFT, KC_SPC),         MT(MOD_RSFT, KC_ENT), MT(MOD_RGUI, KC_LEFT), MT(MOD_RALT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
+      KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   LT(_ADJUST, KC_G),                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_CAPS, KC_LSFT,            KC_LSFT, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
+                            KC_MPLY, KC_LCTRL, KC_LALT, KC_LGUI, KC_SPC,         KC_ENT, MT(MOD_RGUI, KC_LEFT), MT(MOD_RALT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
  * Lower Layer: Numbers left hand
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |  *   |  1   |  2   |  3   |                              |      |      |      |      |      |        |
+ * |        |  +   |  *   |  1   |  2   |  3   |                              |      |      |      |      |      |   Del  |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |      |  /   |  4   |  5   |  6   |                              |      |xxxxxx|      |      |      |        |
+ * |        |  -   |  /   |  4   |  5   |  6   |                              |      |xxxxxx|  \   |      |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |  =   |  7   |  8   |  9   |      |      |  |      |      |  \   |      |      |      |      |        |
+ * |   {    |  =   |  =   |  7   |  8   |  9   |      |      |  |      |      |      |      |      |      |      |   }    |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |  -   |  +   |  0   |   _  |  |      |      |      |      |      |
+ *                        |      |      |      |  0   |   _  |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_LOWER] = LAYOUT(
-      SCREENSHOT_COPY,  _______, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, _______, _______, _______, _______,    KC_DELETE,
-      _______, _______, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, _______, _______, _______, _______, _______,
-      KC_LCBR, _______, KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, KC_BSLS, _______, _______, _______, _______, KC_RCBR,
-                                 _______, KC_MINS, KC_PLUS, KC_0, KC_UNDERSCORE, _______, _______, _______, _______, _______
+      _______, KC_PLUS, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, _______, _______, _______, _______,    KC_DELETE,
+      _______, KC_MINS, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, _______, KC_BSLS, _______, _______, _______,
+      KC_LCBR, KC_EQL , KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_RCBR,
+                                 _______, _______, _______, KC_0, KC_UNDERSCORE, _______, _______, _______, _______, _______
     ),
 /*
  * Raise Layer: Symbols right hand
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |   !   |  @   |  ?   |  $   |     |        |
+ * |        |      |      |      |      |      |                              |   !   |  @   |  ?   |  $   |     |   ~    |
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |        |      |      |      |xxxxxx|      |                              |   ^  |   %  |  *   |  &   |  £   |   `    |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |  #   |   \  |  |   |  <   |  >   |  =   |   ~    |
+ * |   [    |      |      |      |      |      |      |      |  |      |  #   |   \  |  |   |  <   |  >   |  =   |   ]    |
  * |--------+------+------+------+------+------+------+------|  |------+------+------+------+------+------+------+--------|
  *                        |      |      |      |      |      |  |  -   |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -217,66 +217,36 @@ static void render_logo(void) {
     oled_write_raw_P(logo, sizeof(logo));
 }
 
-static void render_master_logo(void) {
-  static const char PROGMEM logo[] = {
-0x00, 0x00, 0x80, 0xC0, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x80, 0xC0, 0x40, 0xC0, 0x80, 0x00, 0x00, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-0x80, 0x80, 0x80, 0x80, 0x00, 0x00, 0x80, 0x40, 0x40, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x18, 0xF0,
-0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0xFE, 0x83, 0x00, 0x00, 0x00, 0x00, 0x18, 0x18, 0x18, 0x18, 0x0F, 0x07, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x01, 0x02, 0x06, 0x02, 0x01, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x01, 0xFF, 0x00, 0x00, 0x03, 0x02, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
-0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x18, 0x18,
-0x18, 0x0F, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0xC0, 0xC0, 0x40, 0x40,
-0x40, 0x40, 0xC0, 0xC0, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x18, 0x1C, 0x1C, 0x1C, 0x1F, 0x1F, 0x1F, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C,
-0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1F, 0x1F, 0x1C, 0x1C, 0x1C, 0x1C, 0x18,
-0x00, 0x00, 0x01, 0x03, 0x06, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-0xF1, 0xC1, 0x01, 0x21, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x01,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x10, 0x20, 0x30,0
-  };
-
-
-  oled_write_raw_P(logo, sizeof(logo));
-  oled_advance_page(false);
-  oled_advance_page(false);
-  oled_advance_page(false);
-  oled_advance_page(false);
-}
-
 static void render_status(void) {
-    render_master_logo();
-
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
             oled_write_P(PSTR("QWERTY\n"), false);
-            oled_write_P(PSTR("Parens\n"), false);
+            oled_write_P(PSTR("Brackets: Parens\n"), false);
             oled_write_P(PSTR("Rotary: volume\n"), false);
             break;
         case _LOWER:
             oled_write_P(PSTR("Numbers LH\n"), false);
-            oled_write_P(PSTR("Curly\n"), false);
+            oled_write_P(PSTR("Brackets: Curly\n"), false);
             oled_write_P(PSTR("Rotary: volume\n"), false);
             break;
         case _RAISE:
             oled_write_P(PSTR("Symbols RH\n"), false);
-            oled_write_P(PSTR("Square\n"), false);
+            oled_write_P(PSTR("Brackets: Square\n"), false);
             oled_write_P(PSTR("Rotary: tmux pane\n"), false);
             break;
         case _ADJUST:
             oled_write_P(PSTR("F1\n"), false);
+            oled_write_P(PSTR("Brackets: Parens\n"), false);
             oled_write_P(PSTR("Rotary: tmux window\n"), false);
             break;
         default:
             oled_write_P(PSTR("Undefined\n"), false);
     }
+
+    led_t led_state = host_keyboard_led_state();
+    oled_write_P(led_state.caps_lock ? PSTR("Caps: On ") : PSTR("Caps: Off"), false);
 }
 
 void oled_task_user(void) {
