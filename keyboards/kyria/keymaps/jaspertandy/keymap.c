@@ -24,7 +24,11 @@ enum layers {
 
 enum custom_keycodes {
   FORCE_HASH = SAFE_RANGE,
-  SCREENSHOT_COPY
+  SCREENSHOT_COPY,
+  VIMUX_PROMPT,
+  VIMUX_REPEAT,
+  VIM_ACK,
+  COLOR_PICKER
 };
 
 //Tap Dance Declarations
@@ -57,8 +61,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
       KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
       KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   LT(_ADJUST, KC_G),                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_BSLS, KC_LSFT,            KC_LSFT, LT(_RAISE, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
-                            KC_CAPS, KC_LCTRL, KC_LALT, KC_LGUI, KC_SPC,         KC_ENT, MT(MOD_RGUI, KC_LEFT), MT(MOD_RALT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
+      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_LALT, LT(_ADJUST, KC_BSLS),            SCREENSHOT_COPY, MT(MOD_RALT, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
+                            KC_CAPS, KC_LCTRL, KC_LSFT, KC_LGUI, KC_SPC,         KC_ENT, MT(MOD_RGUI, KC_LEFT), MT(MOD_RSFT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
  * Lower Layer: Numbers left hand
@@ -84,9 +88,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Raise Layer: Symbols right hand
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |   !   |  @   |  ?   |  $   |     |   ~    |
+ * |        |      | :Ack | \vp  |      |      |                              |   !   |  @   |  ?   |  $   |     |   ~    |
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |xxxxxx|      |                              |   ^  |   %  |  *   |  &   |  £   |   `    |
+ * |        |      |Color |  \r  |xxxxxx|      |                              |   ^  |   %  |  *   |  &   |  £   |   `    |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |   [    |      |      |      |      |      |      |      |  |      |  #   |   \  |  |   |  <   |  >   |  =   |   ]    |
  * |--------+------+------+------+------+------+------+------|  |------+------+------+------+------+------+------+--------|
@@ -95,8 +99,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_RAISE] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
-      _______, _______, _______, _______, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
+      _______, _______, VIM_ACK, VIMUX_PROMPT, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
+      _______, _______, COLOR_PICKER, VIMUX_REPEAT, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
       KC_LBRC, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, KC_RBRC,
                _______, _______, _______, _______, _______,                                     KC_MINS, _______, _______, _______, KC_MPLY
     ),
@@ -298,9 +302,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case SCREENSHOT_COPY:
       if (record->event.pressed) {
-          SEND_STRING(SS_LCTRL(SS_LSFT(SS_LGUI("4"))));
+          SEND_STRING(SS_LSFT(SS_LGUI("4")));
       }
       return false;
+      break;
+    case VIMUX_PROMPT:
+      if (record->event.pressed) {
+          SEND_STRING("\\vp");
+      }
+      return false;
+      break;
+    case VIMUX_REPEAT:
+      if (record->event.pressed) {
+          SEND_STRING(SS_TAP(X_ESCAPE)"\\r");
+      }
+      return false;
+      break;
+    case VIM_ACK:
+      if (record->event.pressed) {
+          SEND_STRING(SS_TAP(X_ESCAPE)":Ack ");
+      }
+      return false;
+      break;
+    case COLOR_PICKER:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("c"))));
+      }
       break;
   }
 
