@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
       KC_TAB,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
       KC_LSFT,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_LALT, LT(_ADJUST, KC_BSLS),            KC_BSLS, MT(MOD_RALT, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                            KC_CAPS, KC_LCTRL, KC_LGUI, MO(_RAISE), KC_SPC,         KC_ENT, LT(_LOWER, KC_LEFT), MT(MOD_RGUI, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
+                            PASSWORD1, KC_LCTRL, KC_LGUI, MO(_RAISE), KC_SPC,         KC_ENT, LT(_LOWER, KC_LEFT), MT(MOD_RGUI, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
  * Lower Layer: Numbers left hand
@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_RAISE] = LAYOUT(
-      _______, _______, VIM_ACK, VIMUX_PROMPT, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
+      _______, _______, VIM_ACK, VIMUX_PROMPT, _______, KC_CAPS,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
       _______, _______, COLOR_PICKER, VIMUX_REPEAT, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
       _______, _______, _______, SCREENSHOT_COPY, _______, _______, _______, _______,   KC_UNDERSCORE, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, _______,
                _______, _______, _______, _______, _______,                                     KC_MINS, _______, _______, _______, KC_MPLY
