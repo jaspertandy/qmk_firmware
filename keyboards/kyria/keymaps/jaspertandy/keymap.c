@@ -59,30 +59,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
-      KC_ESC,       KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-      KC_TAB,   KC_A,   KC_S,   KC_D,   LT(_RAISE, KC_F),   LT(_ADJUST, KC_G),                              KC_H,    LT(_LOWER, KC_J),    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LEFT_PAREN,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_LALT, LT(_ADJUST, KC_BSLS),            SCREENSHOT_COPY, MT(MOD_RALT, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RIGHT_PAREN,
-                            KC_CAPS, KC_LCTRL, KC_LSFT, KC_LGUI, KC_SPC,         KC_ENT, MT(MOD_RGUI, KC_LEFT), MT(MOD_RSFT, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
+      KC_ESC,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+      KC_TAB,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+      KC_LSFT,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, KC_LALT, LT(_ADJUST, KC_BSLS),            KC_BSLS, MT(MOD_RALT, KC_UP),     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+                            KC_CAPS, KC_LCTRL, KC_LGUI, MO(_RAISE), KC_SPC,         KC_ENT, LT(_LOWER, KC_LEFT), MT(MOD_RGUI, KC_DOWN), MT(MOD_RCTL, KC_RGHT), KC_MPLY
     ),
 /*
  * Lower Layer: Numbers left hand
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |  +   |  *   |  1   |  2   |  3   |                              |      |      |      |      |      |   Del  |
+ * |        |  +   |  *   |  1   |  2   |  3   |                              |      |  (   |   )  |      |      |   Del  |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  -   |  /   |  4   |  5   |  6   |                              |      |xxxxxx|  \   |      |      |        |
+ * |        |  -   |  /   |  4   |  5   |  6   |                              |      |  {   |  }   |      |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |   {    |  =   |  =   |  7   |  8   |  9   |      |      |  |      |      |      |      |      |      |      |   }    |
+ * |        |  =   |  =   |  7   |  8   |  9   |      |      |  |      |      |   \  |  [   |  ]   |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |  0   |   _  |  |      |      |      |      |      |
+ *                        |      |      |      |  0   |   _  |  |      |xxxxxx|      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_LOWER] = LAYOUT(
-      _______, KC_PLUS, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, _______, _______, _______, _______,    KC_DELETE,
-      _______, KC_MINS, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, _______, KC_BSLS, _______, _______, _______,
-      KC_LCBR, KC_EQL , KC_EQL,  KC_7,    KC_8,    KC_9, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_RCBR,
-                                 _______, _______, _______, KC_0, KC_UNDERSCORE, _______, _______, _______, _______, _______
+      _______, KC_PLUS, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, KC_LPRN, KC_RPRN, _______, _______,    KC_DELETE,
+      _______, KC_MINS, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, KC_LCBR, KC_RCBR, _______, _______, _______,
+      _______, KC_EQL , KC_EQL,  KC_7,    KC_8,    KC_9, _______, KC_UNDERSCORE, _______, _______, KC_BSLS, KC_LBRC, KC_RBRC, _______, _______, _______,
+                                 _______, _______, _______, KC_0, KC_MINS, _______, _______, _______, _______, _______
     ),
 /*
  * Raise Layer: Symbols right hand
@@ -90,18 +90,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |        |      | :Ack | \vp  |      |      |                              |   !   |  @   |  ?   |  $   |     |   ~    |
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |Color |  \r  |xxxxxx|      |                              |   ^  |   %  |  *   |  &   |  £   |   `    |
+ * |        |      |Color |  \r  |      |      |                              |   ^  |   %  |  *   |  &   |  £   |   `    |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |   [    |      |      |      |      |      |      |      |  |      |  #   |   \  |  |   |  <   |  >   |  =   |   ]    |
  * |--------+------+------+------+------+------+------+------|  |------+------+------+------+------+------+------+--------|
- *                        |      |      |      |      |      |  |  -   |      |      |      |      |
+ *                        |      |      |      |xxxxxx|      |  |  -   |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_RAISE] = LAYOUT(
       _______, _______, VIM_ACK, VIMUX_PROMPT, _______, _______,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
       _______, _______, COLOR_PICKER, VIMUX_REPEAT, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
-      KC_LBRC, _______, _______, _______, _______, _______, _______, _______,   _______, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, KC_RBRC,
+      _______, _______, _______, SCREENSHOT_COPY, _______, _______, _______, _______,   KC_UNDERSCORE, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, _______,
                _______, _______, _______, _______, _______,                                     KC_MINS, _______, _______, _______, KC_MPLY
     ),
 /*
