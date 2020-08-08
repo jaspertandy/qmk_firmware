@@ -28,7 +28,8 @@ enum custom_keycodes {
   VIMUX_PROMPT,
   VIMUX_REPEAT,
   VIM_ACK,
-  COLOR_PICKER
+  COLOR_PICKER,
+  PASSWORD1
 };
 
 //Tap Dance Declarations
@@ -327,6 +328,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLOR_PICKER:
       if (record->event.pressed) {
           SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("c"))));
+      }
+      break;
+    case PASSWORD1:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LGUI(SS_LALT("\\")));
       }
       break;
   }
