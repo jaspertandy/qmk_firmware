@@ -3,16 +3,25 @@
 enum sofle_layers {
     _QWERTY,
     _LOWER,
-    _RAISE,
-    _ADJUST,
+    _RAISE
 };
 
 enum custom_keycodes {
-    KC_QWERTY = SAFE_RANGE,
-    KC_LOWER,
-    KC_RAISE,
-    KC_ADJUST
+  KC_QWERTY = SAFE_RANGE,
+  FORCE_HASH,
+  SCREENSHOT_COPY,
+  VIMUX_PROMPT,
+  VIMUX_REPEAT,
+  VIM_ACK,
+  COLOR_PICKER,
+  PASSWORD1
 };
+
+#define KC_RAIS LT(_RAISE, KC_LEFT)
+#define KC_GUDN MT(MOD_RGUI, KC_DOWN)
+#define KC_ALUP MT(MOD_RALT, KC_UP)
+#define KC_CTRG MT(MOD_RCTL, KC_RIGHT)
+#define KC_LOWR MO(_LOWER)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,11 +42,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_QWERTY] = LAYOUT( \
-  KC_GRV,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_MINS, \
-  KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC, \
-  KC_TAB,   KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT, \
-  KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_MUTE,     XXXXXXX,KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT, \
-                 KC_LCTRL,KC_LALT,KC_LGUI, KC_LOWER, KC_SPC,      KC_ENT,  KC_RAISE, KC_RGUI, KC_RALT, KC_RCTRL \
+  KC_GRV,   KC_1,   KC_2,     KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     KC_MINS, \
+  KC_ESC,   KC_Q,   KC_W,     KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC, \
+  KC_TAB,   KC_A,   KC_S,     KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  KC_QUOT, \
+  KC_LSFT,  KC_Z,   KC_X,     KC_C,    KC_V,    KC_B,    KC_MUTE,   PASSWORD1, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH,  KC_RSFT, \
+                    KC_LCTRL, KC_LALT, KC_LGUI, KC_LOWR, KC_SPC,    KC_ENT,    KC_RAIS, KC_GUDN, KC_ALUP, KC_CTRG \
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -54,11 +63,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [_LOWER] = LAYOUT( \
-  _______, _______, _______, _______, _______, _______,                       _______,   _______, _______, KC_LPRN, KC_RPRN, KC_PLUS, \
-  _______, _______, _______, _______, _______, _______,                       _______,   _______, _______, KC_LCBR, KC_RCBR, KC_EQL , \
-  _______, _______, _______, _______, _______, _______,                       _______,   _______, _______, KC_LBRC, KC_RBRC, _______, \
-  _______, _______, _______, _______, _______, _______, _______,     _______, _______,   _______, _______, _______, _______, _______, \
-                    _______, _______, _______, _______, _______,     _______, KC_ADJUST, _______, _______, _______ \
+  _______, KC_EXLM, KC_AT,   FORCE_HASH, KC_DOLLAR, KC_PERC,                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
+  _______, _______, _______, _______,    _______,   _______,                       _______, KC_PLUS, _______, KC_LCBR, KC_RCBR, _______, \
+  _______, _______, _______, _______,    _______,   _______,                       KC_BSLS, KC_EQL , _______, KC_LBRC, KC_RBRC, _______, \
+  _______, _______, _______, _______,    _______,   _______, _______,     _______, KC_PIPE, _______, KC_LT,   KC_GT,   _______, _______, \
+                    _______, _______,    _______,   _______, _______,     _______, _______, _______, _______, _______ \
 ),
 /* RAISE
  * ,----------------------------------------.                    ,-----------------------------------------.
@@ -75,33 +84,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [_RAISE] = LAYOUT( \
-  _______, _______, _______, _______,  _______, _______,                       _______, _______, _______, _______, _______, _______, \
-  _______, _______, KC_UP  , _______,  _______, _______,                       _______, _______, KC_PIPE, _______, _______, KC_BSLS, \
-  _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______,                       _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______,  _______, _______, _______,     _______, _______, _______, _______, _______, _______, _______, \
-                    _______, _______,  _______, KC_ADJUST, _______,     _______, _______, _______, _______, _______ \
-),
-/* ADJUST
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------.    ,-------|      |      |      |      |      |      |
- * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------|    |-------|      |      |      |      |      |      |
- * `-----------------------------------------/       /     \      \-----------------------------------------'
- *            |      |      |      |      | /       /       \      \  |      |      |      |      |
- *            |      |      |      |      |/       /         \      \ |      |      |      |      |
- *            `----------------------------------'           '------''---------------------------'
- */
-  [_ADJUST] = LAYOUT( \
-  _______, _______, _______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______, _______, _______, \
-                    _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______ \
-  )
+  _______, _______, _______, _______,  _______,      _______        ,                       _______, _______, _______, _______, _______, _______, \
+  _______, _______, KC_UP  , _______,  VIMUX_PROMPT, FORCE_HASH     ,                       _______, _______, _______, _______, _______, _______, \
+  _______, KC_LEFT, KC_DOWN, KC_RIGHT, VIMUX_REPEAT, PASSWORD1      ,                       _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______,  VIM_ACK,      COLOR_PICKER   , _______,     _______, _______, _______, _______, _______, _______, _______, \
+                    _______, _______,  _______,      SCREENSHOT_COPY, _______,     _______, _______, _______, _______, _______ \
+)
 };
 
 /**
@@ -165,31 +153,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_single_persistent_default_layer(_QWERTY);
             }
             return false;
-        case KC_LOWER:
+            break;
+        case FORCE_HASH:
             if (record->event.pressed) {
-                layer_on(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            } else {
-                layer_off(_LOWER);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                SEND_STRING(SS_LALT("3"));
             }
             return false;
-        case KC_RAISE:
+            break;
+        case SCREENSHOT_COPY:
             if (record->event.pressed) {
-                layer_on(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
-            } else {
-                layer_off(_RAISE);
-                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+                SEND_STRING(SS_LSFT(SS_LGUI("4")));
             }
             return false;
-        case KC_ADJUST:
+            break;
+        case VIMUX_PROMPT:
             if (record->event.pressed) {
-                layer_on(_ADJUST);
-            } else {
-                layer_off(_ADJUST);
+                SEND_STRING("\\vp");
             }
             return false;
+            break;
+        case VIMUX_REPEAT:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_ESCAPE)"\\r");
+            }
+            return false;
+            break;
+        case VIM_ACK:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_ESCAPE)":Ack ");
+            }
+            return false;
+            break;
+        case COLOR_PICKER:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("c"))));
+            }
+            break;
+        case PASSWORD1:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_LALT("\\")));
+            }
+            break;
     }
     return true;
 }
