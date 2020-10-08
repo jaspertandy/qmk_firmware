@@ -80,10 +80,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_LOWER] = LAYOUT(
-      _______, KC_PLUS, KC_ASTERISK, KC_1,    KC_2,    KC_3,                                        _______, KC_LPRN, KC_RPRN, _______, _______,    KC_DELETE,
-      _______, KC_MINS, KC_SLSH,  KC_4,    KC_5,    KC_6,                                     _______, KC_LCBR, KC_RCBR, _______, _______, _______,
-      _______, KC_EQL , KC_EQL,  KC_7,    KC_8,    KC_9, _______, KC_UNDERSCORE, _______, _______, KC_BSLS, KC_LBRC, KC_RBRC, _______, _______, _______,
-                                 _______, _______, _______, KC_0, KC_MINS, _______, _______, _______, _______, _______
+      _______, KC_PLUS, KC_1,    KC_2,        KC_3,    KC_UNDERSCORE,                                         _______, KC_LPRN, KC_RPRN, _______, _______, KC_DELETE,
+      _______, KC_MINS, KC_4,    KC_5,        KC_6,    KC_MINS,                                               _______, KC_LCBR, KC_RCBR, _______, _______, _______,
+      _______, KC_EQL , KC_7,    KC_8,        KC_9,    KC_EQL, _______, KC_UNDERSCORE,      _______, _______, KC_BSLS, KC_LBRC, KC_RBRC, _______, _______, _______,
+                                 KC_ASTERISK, KC_SLSH, KC_0, _______, KC_MINS,              _______, _______, _______, _______, _______
     ),
 /*
  * Raise Layer: Symbols right hand
@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, VIM_ACK, VIMUX_PROMPT, _______, KC_CAPS,                           KC_EXCLAIM,  KC_AT,  KC_QUES,  KC_DOLLAR, _______, KC_TILDE,
       _______, _______, COLOR_PICKER, VIMUX_REPEAT, _______, _______,                           KC_CIRCUMFLEX, KC_PERCENT, KC_ASTERISK, KC_AMPERSAND, KC_HASH, KC_GRV,
       _______, _______, _______, SCREENSHOT_COPY, _______, _______, _______, _______,   KC_UNDERSCORE, FORCE_HASH, KC_BSLS, KC_PIPE,  KC_LT,   KC_GT, KC_EQL, _______,
-               _______, _______, _______, _______, _______,                                     KC_MINS, _______, _______, _______, KC_MPLY
+               _______, _______, _______, _______, _______,                                     KC_MINS, KC_UNDERSCORE, _______, _______, KC_MPLY
     ),
 /*
  * Adjust Layer: Function keys, RGB
