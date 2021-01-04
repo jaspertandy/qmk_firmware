@@ -28,14 +28,14 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(/* Base */
                  TO(0),  TO(1),  TO(2),
-                 TO(3),  VIMUX_REPEAT,  PASSWORD1,
-                 KC_MPLY, KC_U,  KC_9,
-                 KC_X,  KC_Y,  KC_Z),
+                 TO(3),  _______,  _______,
+                 KC_MPLY, _______,  _______,
+                 _______,  _______,  _______),
     [1] = LAYOUT(
                  _______,  _______,  _______,
-                 VIMUX_PROMPT,  VIMUX_REPEAT,  PASSWORD1,
-                 KC_MPLY, KC_U,  PASSWORD1,
-                 KC_X,  KC_Y,  KC_Z),
+                 VIMUX_PROMPT,  VIMUX_REPEAT,  VIMUX_CANCEL,
+                 KC_MPLY, _______,  PASSWORD1,
+                 _______,  _______,  _______),
     [2] = LAYOUT(
                  _______,  _______,  _______,
                  KC_1,  KC_2,  KC_3,
