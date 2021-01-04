@@ -16,8 +16,8 @@
 #define MATRIX_COLS 6
 
 #define ENCODER_RESOLUTION 2
-#define ENCODERS_PAD_A { D5 }
-#define ENCODERS_PAD_B { B7 }
+#define ENCODERS_PAD_A { B7 }
+#define ENCODERS_PAD_B { D5 }
 
 /* key matrix pins */
 #define MATRIX_ROW_PINS { F5, F6, B4, F0, F4, E6, B5, F1 }
