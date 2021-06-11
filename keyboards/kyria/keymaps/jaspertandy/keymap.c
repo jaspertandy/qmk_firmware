@@ -30,6 +30,7 @@ enum custom_keycodes {
   VIM_ACK,
   COLOR_PICKER,
   PASSWORD1,
+  KC_CMDSPC,
   CTRL_LEFT,
   CTRL_RIGHT
 };
@@ -50,22 +51,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
-      KC_ESC,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-      KC_TAB,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LSFT,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, _______, _______,            _______, _______,     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                            PASSWORD1, KC_LCTRL, KC_LGUI, MO(_LOWER), KC_SPC,         KC_ENT, MO(_RAISE), KC_RGUI, KC_RALT, KC_MPLY
+      KC_TAB,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,                                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+      KC_LCTL,   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+      KC_LSFT,  KC_Z,   KC_X,   KC_C,   KC_V,   KC_B, _______, _______,            _______, _______,     KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ESC,
+                            PASSWORD1, _______, KC_LGUI, MO(_LOWER), KC_SPC,         KC_ENT, MO(_RAISE), KC_LALT, _______, KC_MPLY
     ),
     [_LOWER] = LAYOUT(
-      KC_CAPS, KC_EXCLAIM, KC_AT,   KC_HASH,    KC_DOLLAR,    KC_PERCENT,                                         KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_MINS,  KC_UNDERSCORE, KC_EQL,
-      _______, _______,    _______, FORCE_HASH, _______,      _______,                                            KC_LEFT,       KC_DOWN,      KC_UP,       KC_RIGHT, _______,       KC_TILDE,
-      _______, _______,    _______, _______,    VIMUX_PROMPT, VIMUX_REPEAT, _______, _______,   _______, _______, CTRL_LEFT,     CTRL_RIGHT,   KC_LT,       KC_GT,    _______,       KC_GRV,
-                                    _______,    _______,      _______,      _______, _______,   _______, _______, _______,       _______,      _______
+       KC_TAB, KC_1, KC_2,   KC_3,    KC_4,    KC_5,                                         KC_6, KC_7, KC_8, KC_9,  KC_0, _______,
+       _______, _______, _______, _______, _______, _______,                                     KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, _______,
+       _______, _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______, _______,
+                                  _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______
     ),
     [_RAISE] = LAYOUT(
-      _______, KC_PLUS,     KC_1,    KC_2,        KC_3, KC_UNDERSCORE,                                    _______, KC_LPRN, KC_RPRN, _______, _______, KC_DELETE,
-      _______, KC_ASTERISK, KC_4,    KC_5,        KC_6, KC_MINS,                                          KC_PIPE, KC_LCBR, KC_RCBR, _______, _______, _______,
-      _______, KC_SLSH ,    KC_7,    KC_8,        KC_9, KC_EQL,  _______, _______,      _______, _______, KC_BSLS, KC_LBRC, KC_RBRC, _______, _______, _______,
-                                         _______, _______, KC_0, _______, _______,      _______, _______, _______, _______, _______
+      KC_TAB, KC_EXCLAIM, KC_AT, KC_HASH, KC_DOLLAR, KC_PERCENT,                                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+      _______, _______, _______, _______, _______, _______,                                           KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+          _______, _______, _______, _______, _______, _______,  _______, _______,      _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+                                  _______, _______, _______, _______, KC_CMDSPC,      _______, _______, _______, _______, _______
     ),
     [_ADJUST] = LAYOUT(
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
@@ -307,6 +308,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
           SEND_STRING(SS_LCTRL(SS_TAP(X_RGHT)));
       }
+      break;
+    case KC_CMDSPC:
+      if (record->event.pressed) {
+          SEND_STRING(SS_LGUI(" "));
+      }
+      return false;
       break;
   }
 
