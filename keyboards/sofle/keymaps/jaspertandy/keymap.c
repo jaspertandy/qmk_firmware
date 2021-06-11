@@ -14,15 +14,9 @@ enum custom_keycodes {
   VIMUX_REPEAT,
   VIM_ACK,
   COLOR_PICKER,
-  PASSWORD1
+  PASSWORD1,
+  CMD_SPACE
 };
-
-#define KC_RAIS LT(_RAISE, KC_LEFT)
-#define KC_GUDN MT(MOD_RGUI, KC_DOWN)
-#define KC_ALUP MT(MOD_RALT, KC_UP)
-#define KC_CTRG MT(MOD_RCTL, KC_RIGHT)
-#define KC_LOWR MO(_LOWER)
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
@@ -42,11 +36,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_QWERTY] = LAYOUT( \
-  KC_GRV,   KC_1,   KC_2,     KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     KC_MINS, \
-  KC_ESC,   KC_Q,   KC_W,     KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC, \
-  KC_TAB,   KC_A,   KC_S,     KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  KC_QUOT, \
+  KC_ESC,   KC_1,   KC_2,     KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,   KC_0,     KC_MINS, \
+  KC_TAB,   KC_Q,   KC_W,     KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,     KC_BSPC, \
+  KC_LCTRL, KC_A,   KC_S,     KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,  KC_QUOT, \
   KC_LSFT,  KC_Z,   KC_X,     KC_C,    KC_V,    KC_B,    KC_MUTE,   PASSWORD1, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH,  KC_RSFT, \
-                    KC_LCTRL, KC_LALT, KC_LGUI, KC_LOWR, KC_SPC,    KC_ENT,    KC_RAIS, KC_GUDN, KC_ALUP, KC_CTRG \
+                    KC_CAPS, _______, KC_LGUI, MO(_LOWER), KC_SPC,    KC_ENT,    MO(_RAISE), KC_LALT, KC_LBRC, KC_RBRC \
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -63,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [_LOWER] = LAYOUT( \
-  _______, KC_EXLM, KC_AT,   FORCE_HASH, KC_DOLLAR, KC_PERC,                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
+  KC_GRV,  KC_EXLM, KC_AT,   FORCE_HASH, KC_DOLLAR, KC_PERC,                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
   _______, _______, _______, _______,    _______,   _______,                       _______, KC_PLUS, _______, KC_LCBR, KC_RCBR, _______, \
   _______, _______, _______, _______,    _______,   _______,                       KC_BSLS, KC_EQL , _______, KC_LBRC, KC_RBRC, _______, \
   _______, _______, _______, _______,    _______,   _______, _______,     _______, KC_PIPE, _______, KC_LT,   KC_GT,   _______, _______, \
@@ -88,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, KC_UP  , _______,  VIMUX_PROMPT, FORCE_HASH     ,                       _______, _______, _______, _______, _______, _______, \
   _______, KC_LEFT, KC_DOWN, KC_RIGHT, VIMUX_REPEAT, _______        ,                       _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______,  VIM_ACK,      COLOR_PICKER   , _______,     _______, _______, _______, _______, _______, _______, _______, \
-                    _______, _______,  _______,      SCREENSHOT_COPY, _______,     _______, _______, _______, _______, _______ \
+                    _______, _______,  _______,      SCREENSHOT_COPY, CMD_SPACE,     _______, _______, _______, _______, _______ \
 )
 };
 
@@ -192,6 +186,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case PASSWORD1:
             if (record->event.pressed) {
                 SEND_STRING(SS_LGUI(SS_LALT("\\")));
+            }
+            break;
+        case CMD_SPACE:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_TAP(X_SPACE)));
             }
             break;
     }
